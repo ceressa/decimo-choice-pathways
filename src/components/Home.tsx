@@ -4,9 +4,24 @@ import { useDecimo } from "@/contexts/DecimoContext";
 import DailyChoices from "./DailyChoices";
 import ProgressTracker from "./ProgressTracker";
 import StoryPreview from "./StoryPreview";
+import TaskList from "./TaskList";
 
 const Home: React.FC = () => {
   const { userData, selectedChoice } = useDecimo();
+  
+  // Mock tasks for demonstration
+  const mockTasks = [
+    {
+      id: "task1",
+      text: "Reflect on the meaning of today's story",
+      completed: false
+    },
+    {
+      id: "task2",
+      text: "Share your thoughts with a friend",
+      completed: false
+    }
+  ];
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -28,6 +43,10 @@ const Home: React.FC = () => {
               <StoryPreview />
             </div>
           )}
+          
+          <div className="mb-8 animate-fade-in">
+            <TaskList tasks={mockTasks} />
+          </div>
           
           <div className="flex-1">
             <DailyChoices />

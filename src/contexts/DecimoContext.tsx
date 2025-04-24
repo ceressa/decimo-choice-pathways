@@ -14,6 +14,12 @@ export type Choice = {
   };
 };
 
+export type Task = {
+  id: string;
+  text: string;
+  completed: boolean;
+};
+
 type UserData = {
   name: string;
   dayProgress: number;
@@ -21,6 +27,9 @@ type UserData = {
   lastViewedDay: number;
   traitPoints: {
     [trait: string]: number;
+  };
+  taskCompletions: {
+    [taskId: string]: boolean;
   };
 };
 
@@ -33,6 +42,7 @@ type DecimoContextType = {
   selectChoice: (choiceId: number) => void;
   goToHome: () => void;
   viewStory: (choiceId: number) => void;
+  completeTask: (taskId: string) => void;
 };
 
 // Mock story content - this would come from Firebase in production
@@ -75,6 +85,20 @@ const mockChoicesData: Choice[] = [
   },
 ];
 
+// Mock tasks data
+const mockTasks: Task[] = [
+  {
+    id: "task1",
+    text: "Reflect on the meaning of today's story",
+    completed: false
+  },
+  {
+    id: "task2",
+    text: "Share your thoughts with a friend",
+    completed: false
+  }
+];
+
 // Initial user data
 const initialUserData: UserData = {
   name: "",
@@ -89,7 +113,8 @@ const initialUserData: UserData = {
     empathy: 0,
     perception: 0,
     bravery: 0
-  }
+  },
+  taskCompletions: {}
 };
 
 // Create the context
@@ -140,6 +165,17 @@ export const DecimoProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }));
   };
 
+  // Complete a task
+  const completeTask = (taskId: string) => {
+    setUserData(prev => ({
+      ...prev,
+      taskCompletions: {
+        ...prev.taskCompletions,
+        [taskId]: true
+      }
+    }));
+  };
+
   // View a specific story 
   const viewStory = (choiceId: number) => {
     const choice = mockChoicesData.find(c => c.id === choiceId);
@@ -169,7 +205,8 @@ export const DecimoProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setName,
     selectChoice,
     viewStory,
-    goToHome
+    goToHome,
+    completeTask
   };
 
   return (
