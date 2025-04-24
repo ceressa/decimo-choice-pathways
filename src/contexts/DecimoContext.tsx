@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Types for our context
@@ -83,6 +82,96 @@ const mockChoicesData: Choice[] = [
     storyText: "Cold water closes around you as you dive deeper, following the faint blue glow. The cave opens suddenly—a vast chamber adorned with crystals that pulse with living light. As you float in the center, time seems suspended. Images flash through your mind: ancient cities, forgotten languages, faces of people you somehow recognize but have never met. When you finally surface, gasping for air, you carry knowledge within you that wasn't there before—secrets that were old when the world was young.",
     traitPoints: { curiosity: 2, bravery: 2 }
   },
+  {
+    id: 5,
+    day: 3,
+    title: "The Moonlit Garden",
+    description: "A garden that only blooms under the silver light of the moon",
+    image: "https://images.unsplash.com/photo-1502919280275-1bed9aca68ab?q=80&w=1000",
+    storyText: "Under the moonlight, flowers unfold their luminescent petals, casting a soft glow across the garden. The air is thick with an otherworldly perfume that seems to whisper ancient secrets.",
+    traitPoints: { wisdom: 2, perception: 2 }
+  },
+  {
+    id: 6,
+    day: 3,
+    title: "The Time Mirror",
+    description: "A mirror that shows reflections from different times",
+    image: "https://images.unsplash.com/photo-1582994254571-52c62d96ebab?q=80&w=1000",
+    storyText: "The surface ripples like liquid silver, showing glimpses of what was and what might be. Your reflection shifts between past and future versions of yourself.",
+    traitPoints: { intuition: 2, courage: 2 }
+  },
+  {
+    id: 7,
+    day: 4,
+    title: "The Singing Crystals",
+    description: "Crystal formations that resonate with musical frequencies",
+    image: "https://images.unsplash.com/photo-1507729905361-dbc1ef1a3711?q=80&w=1000",
+    storyText: "The crystals hum with an ethereal melody, each note carrying emotions and memories from ages past. The harmonies weave together into a song that feels strangely familiar.",
+    traitPoints: { empathy: 2, perception: 2 }
+  },
+  {
+    id: 8,
+    day: 4,
+    title: "The Wind Dancer",
+    description: "A mysterious figure performing an ancient dance in the storm",
+    image: "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?q=80&w=1000",
+    storyText: "Through the wild tempest, a figure moves with impossible grace, their movements controlling the very winds themselves. The storm responds to their dance, creating patterns in the sky.",
+    traitPoints: { courage: 2, bravery: 2 }
+  },
+  {
+    id: 9,
+    day: 5,
+    title: "The Library of Dreams",
+    description: "An endless library where stories come alive",
+    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000",
+    storyText: "Books float through the air, their pages fluttering like wings. Each one contains not just words, but living dreams that spill into reality when opened.",
+    traitPoints: { wisdom: 2, curiosity: 2 }
+  },
+  {
+    id: 10,
+    day: 5,
+    title: "The Memory Well",
+    description: "A well that shows memories when you gaze into its depths",
+    image: "https://images.unsplash.com/photo-1519865885898-a54a6f2c7eea?q=80&w=1000",
+    storyText: "The dark waters below shimmer with fragments of memories - some your own, some belonging to others. Each ripple reveals a different moment in time.",
+    traitPoints: { intuition: 2, empathy: 2 }
+  },
+  {
+    id: 11,
+    day: 6,
+    title: "The Star Bridge",
+    description: "A bridge made of starlight connecting two worlds",
+    image: "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=1000",
+    storyText: "The bridge stretches across the void, its surface sparkling with captured starlight. Each step leaves ripples in the cosmic fabric beneath your feet.",
+    traitPoints: { courage: 2, perception: 2 }
+  },
+  {
+    id: 12,
+    day: 6,
+    title: "The Echo Chamber",
+    description: "A room where echoes reveal hidden truths",
+    image: "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=1000",
+    storyText: "Your whispers return transformed, carrying messages from different times and places. The chamber seems to know your deepest questions and answers them in riddles.",
+    traitPoints: { wisdom: 2, intuition: 2 }
+  },
+  {
+    id: 13,
+    day: 7,
+    title: "The Final Crossing",
+    description: "A threshold between what was and what will be",
+    image: "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=1000",
+    storyText: "Standing at the threshold, you can see all the paths that led you here converging into this moment. The choices you've made have shaped the way forward.",
+    traitPoints: { courage: 2, wisdom: 2 }
+  },
+  {
+    id: 14,
+    day: 7,
+    title: "The Eternal Moment",
+    description: "A place where time stands still",
+    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1000",
+    storyText: "In this suspended moment between moments, you can see the patterns of your journey clearly. Every choice, every step has been leading to this revelation.",
+    traitPoints: { intuition: 2, perception: 2 }
+  }
 ];
 
 // Mock tasks data

@@ -11,6 +11,9 @@ const DailyChoices: React.FC = () => {
   const [showStory, setShowStory] = useState(false);
   const [showHomeButton, setShowHomeButton] = useState(false);
   
+  // Get all available choices for the current day
+  const availableChoices = todayChoices.filter(choice => choice.day <= currentDay);
+  
   // Transition to show story after card selection animation completes
   useEffect(() => {
     if (selectedChoice) {
@@ -83,7 +86,7 @@ const DailyChoices: React.FC = () => {
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="w-full max-w-md space-y-6">
           <div className="grid grid-cols-1 gap-6">
-            {todayChoices.map((choice) => (
+            {availableChoices.map((choice) => (
               <div key={choice.id} className="animate-scale-in">
                 <ChoiceCard 
                   choice={choice}
