@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 @layer base {
   :root {
@@ -68,6 +69,22 @@
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
   }
+  
+  /* Story typography */
+  .prose p {
+    font-family: 'Lora', serif;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  
+  .prose p:first-of-type::first-letter {
+    font-size: 2.5rem;
+    font-weight: 600;
+    float: left;
+    line-height: 1;
+    margin-right: 0.2em;
+    color: theme('colors.violet.700');
+  }
 }
 
 .card-shadow {
@@ -85,4 +102,19 @@
 .choice-card-selected {
   z-index: 50;
   animation: card-expand 0.6s ease-out forwards;
+}
+
+@keyframes card-expand {
+  0% { transform: scale(1); z-index: 10; }
+  100% { transform: scale(1.05); z-index: 50; }
+}
+
+/* Story page animations */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-story-entrance {
+  animation: fade-up 0.8s ease-out forwards;
 }

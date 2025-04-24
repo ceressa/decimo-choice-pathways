@@ -131,6 +131,10 @@ export default {
 				'card-expand': {
 					'0%': { transform: 'scale(1)', zIndex: '10' },
 					'100%': { transform: 'scale(1.05)', zIndex: '50' }
+				},
+				'story-reveal': {
+					'0%': { opacity: '0', transform: 'translateY(20px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 			animation: {
@@ -140,9 +144,29 @@ export default {
 				'fade-out': 'fade-out 0.3s ease-out',
 				'scale-in': 'scale-in 0.2s ease-out',
 				'scale-out': 'scale-out 0.2s ease-out',
-				'card-expand': 'card-expand 0.4s ease-out forwards'
-			}
+				'card-expand': 'card-expand 0.4s ease-out forwards',
+				'story-reveal': 'story-reveal 0.6s ease-out forwards 0.3s'
+			},
+			typography: {
+				DEFAULT: {
+					css: {
+						maxWidth: '65ch',
+						color: 'var(--tw-prose-body)',
+						'p:first-of-type::first-letter': {
+							fontSize: '2.5rem',
+							fontWeight: '600',
+							float: 'left',
+							lineHeight: '1',
+							marginRight: '0.2em',
+							color: 'var(--tw-prose-headings)',
+						},
+					},
+				},
+			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require('@tailwindcss/typography'),
+	],
 } satisfies Config;

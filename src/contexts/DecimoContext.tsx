@@ -8,25 +8,17 @@ export type Choice = {
   title: string;
   description: string;
   image: string;
-  tasks: Task[];
+  storyText: string;
   traitPoints?: {
     [key: string]: number;
   };
-};
-
-export type Task = {
-  id: number;
-  text: string;
-  completed: boolean;
 };
 
 type UserData = {
   name: string;
   dayProgress: number;
   choices: number[];
-  taskCompletions: {
-    [taskId: number]: boolean;
-  };
+  lastViewedDay: number;
   traitPoints: {
     [trait: string]: number;
   };
@@ -39,58 +31,47 @@ type DecimoContextType = {
   selectedChoice: Choice | null;
   setName: (name: string) => void;
   selectChoice: (choiceId: number) => void;
-  completeTask: (taskId: number) => void;
   goToHome: () => void;
+  viewStory: (choiceId: number) => void;
 };
 
+// Mock story content - this would come from Firebase in production
 const mockChoicesData: Choice[] = [
   {
     id: 1,
     day: 1,
-    title: "Adventure",
-    description: "Embrace new experiences and step out of your comfort zone",
-    image: "https://images.unsplash.com/photo-1682687982107-14492010e05e?q=80&w=1000",
-    tasks: [
-      { id: 101, text: "Try something new today that challenges you", completed: false },
-      { id: 102, text: "Document your experience in a journal entry", completed: false }
-    ],
-    traitPoints: { courage: 2, openness: 2 }
+    title: "The Forgotten Path",
+    description: "A mysterious trail leads deep into an ancient forest",
+    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?q=80&w=1000",
+    storyText: "You step onto the path, leaves crunching beneath your feet. The air grows still as you venture deeper into the woods. Ancient trees tower above, their branches forming a cathedral-like canopy that filters the sunlight into golden shafts. A sense of being watched prickles at the back of your neck, but when you turn, there is only stillness. Something tells you this journey will change everything.",
+    traitPoints: { courage: 2, curiosity: 2 }
   },
   {
     id: 2,
     day: 1,
-    title: "Reflection",
-    description: "Take time to look inward and understand yourself better",
-    image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?q=80&w=1000",
-    tasks: [
-      { id: 103, text: "Meditate for 10 minutes in a quiet space", completed: false },
-      { id: 104, text: "Write down three insights about yourself", completed: false }
-    ],
-    traitPoints: { wisdom: 2, patience: 2 }
+    title: "The Hidden Door",
+    description: "A weathered door stands mysteriously in an abandoned wall",
+    image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=1000",
+    storyText: "The door's worn surface feels warm beneath your fingertips, despite the cool air surrounding it. As you push it open, hinges groaning with age, a corridor of soft light unfolds before you. The air smells of old books and distant spices. You hesitate at the threshold, the world you know behind you, an unknown realm ahead. Taking a deep breath, you step through, the door closing silently behind you.",
+    traitPoints: { wisdom: 2, intuition: 2 }
   },
   {
     id: 3,
     day: 2,
-    title: "Connection",
-    description: "Strengthen your bonds with others through meaningful interaction",
-    image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=1000",
-    tasks: [
-      { id: 105, text: "Reach out to someone you haven't spoken to in a while", completed: false },
-      { id: 106, text: "Have a deep conversation beyond small talk", completed: false }
-    ],
-    traitPoints: { empathy: 2, kindness: 2 }
+    title: "The Whispering Statue",
+    description: "A marble figure that seems to speak when no one is listening",
+    image: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=1000",
+    storyText: "The statue's marble eyes seem to follow you as you approach. In the quiet courtyard, you could swear the stone lips move ever so slightly. When you place your ear close to the cold surface, a whisper emerges—not sound, but thought, flowing directly into your mind. 'Seek the one who walks between worlds,' it says. 'They have been waiting for you.' As you step back, startled, the statue returns to silent stillness, but something has awakened within you.",
+    traitPoints: { empathy: 2, perception: 2 }
   },
   {
     id: 4,
     day: 2,
-    title: "Creation",
-    description: "Express yourself through a creative outlet",
-    image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=1000",
-    tasks: [
-      { id: 107, text: "Spend 30 minutes on a creative project", completed: false },
-      { id: 108, text: "Share your creation with at least one person", completed: false }
-    ],
-    traitPoints: { creativity: 2, expression: 2 }
+    title: "The Luminescent Cave",
+    description: "An underwater cavern that glows with mysterious blue light",
+    image: "https://images.unsplash.com/photo-1682687982107-14492010e05e?q=80&w=1000",
+    storyText: "Cold water closes around you as you dive deeper, following the faint blue glow. The cave opens suddenly—a vast chamber adorned with crystals that pulse with living light. As you float in the center, time seems suspended. Images flash through your mind: ancient cities, forgotten languages, faces of people you somehow recognize but have never met. When you finally surface, gasping for air, you carry knowledge within you that wasn't there before—secrets that were old when the world was young.",
+    traitPoints: { curiosity: 2, bravery: 2 }
   },
 ];
 
@@ -99,16 +80,15 @@ const initialUserData: UserData = {
   name: "",
   dayProgress: 0,
   choices: [],
-  taskCompletions: {},
+  lastViewedDay: 0,
   traitPoints: {
     courage: 0,
-    openness: 0,
+    curiosity: 0,
     wisdom: 0,
-    patience: 0,
+    intuition: 0,
     empathy: 0,
-    kindness: 0,
-    creativity: 0,
-    expression: 0
+    perception: 0,
+    bravery: 0
   }
 };
 
@@ -160,25 +140,19 @@ export const DecimoProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }));
   };
 
-  // Mark a task as completed
-  const completeTask = (taskId: number) => {
-    setUserData(prev => ({
-      ...prev,
-      taskCompletions: {
-        ...prev.taskCompletions,
-        [taskId]: true
-      }
-    }));
-
-    // Update the selected choice tasks if viewing that choice
-    if (selectedChoice) {
-      const updatedTasks = selectedChoice.tasks.map(task => 
-        task.id === taskId ? { ...task, completed: true } : task
-      );
-      setSelectedChoice({
-        ...selectedChoice,
-        tasks: updatedTasks
-      });
+  // View a specific story 
+  const viewStory = (choiceId: number) => {
+    const choice = mockChoicesData.find(c => c.id === choiceId);
+    if (!choice) return;
+    
+    setSelectedChoice(choice);
+    
+    // Update last viewed day if viewing a past day
+    if (choice.day > userData.lastViewedDay) {
+      setUserData(prev => ({
+        ...prev,
+        lastViewedDay: choice.day
+      }));
     }
   };
 
@@ -194,7 +168,7 @@ export const DecimoProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     selectedChoice,
     setName,
     selectChoice,
-    completeTask,
+    viewStory,
     goToHome
   };
 
