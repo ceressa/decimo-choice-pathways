@@ -14,6 +14,12 @@ const DailyChoices: React.FC = () => {
   // Get all available choices for the current day
   const availableChoices = todayChoices.filter(choice => choice.day <= currentDay);
   
+  // Handle choice selection
+  const handleChoiceSelect = (choiceId: number) => {
+    console.log("Choice selected:", choiceId);
+    selectChoice(choiceId);
+  };
+  
   // Transition to show story after card selection animation completes
   useEffect(() => {
     if (selectedChoice) {
@@ -91,7 +97,10 @@ const DailyChoices: React.FC = () => {
                 <ChoiceCard 
                   choice={choice}
                   isSelected={false}
-                  onSelect={() => selectChoice(choice.id)}
+                  onSelect={() => {
+                    console.log("Clicked choice card:", choice.id);
+                    handleChoiceSelect(choice.id);
+                  }}
                   className="w-full aspect-[3/4]"
                 />
               </div>

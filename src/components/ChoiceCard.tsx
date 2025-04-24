@@ -21,7 +21,10 @@ const ChoiceCard: React.FC<ChoiceCardProps> = ({
       className={`choice-card relative overflow-hidden rounded-2xl card-shadow cursor-pointer
         ${isSelected ? "choice-card-selected" : "hover:scale-[1.02]"} 
         ${className}`}
-      onClick={onSelect}
+      onClick={() => onSelect()}
+      role="button"
+      aria-pressed={isSelected}
+      tabIndex={0}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 z-10" />
       
