@@ -18,9 +18,10 @@ const ChoiceCard: React.FC<ChoiceCardProps> = ({
 }) => {
   return (
     <div 
-      className={`choice-card relative overflow-hidden rounded-2xl card-shadow
+      className={`choice-card relative overflow-hidden rounded-2xl card-shadow cursor-pointer
         ${isSelected ? "choice-card-selected" : "hover:scale-[1.02]"} 
         ${className}`}
+      onClick={onSelect}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 z-10" />
       
@@ -40,10 +41,6 @@ const ChoiceCard: React.FC<ChoiceCardProps> = ({
           className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 
             flex items-center justify-center shadow-md z-20 
             transform transition-transform hover:scale-110"
-          onClick={(e) => {
-            e.stopPropagation();
-            onSelect();
-          }}
         >
           <Check className="w-5 h-5 text-violet-600" />
         </div>
